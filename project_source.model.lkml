@@ -1,10 +1,10 @@
 connection: "snowflake_prod"
 label:"Source Data on Snowflake"
-include: "/core/common.lkml"
+# include: "/core/common.lkml"
 
 include: "*.view.lkml"         # include all views in this project
 include: "*.dashboard.lookml"  # include all dashboards in this project
-include: "dims.model.lkml"
+# include: "dims.model.lkml"
 
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
@@ -30,12 +30,14 @@ explore: tables {
     sql_on: ${tables.table_catalog} = ${load_history.table_catalog}
           and ${tables.table_schema} = ${load_history.schema_name}
           and ${tables.table_name} = ${load_history.table_name};;
+    relationship: many_to_one
   }
 
   join: columns {
     sql_on:  ${tables.table_catalog} = ${columns.table_catalog}
           and ${tables.table_schema} = ${columns.table_schema}
           and ${tables.table_name} = ${columns.table_name};;
+    relationship: many_to_one
   }
 }
 
@@ -102,6 +104,7 @@ explore: snapshot {
   join: master {
     from:  snapshot
     sql_on: ${snapshot.parent_id} = ${master.id} ;;
+    relationship: many_to_one
   }
 
   join:  org {
@@ -183,19 +186,19 @@ explore: snapshot {
 }
 
 
-explore: ga_data_parsed {
-  label: "Google Analytics Data"
-  extends: [dim_course]
-  join: user_facts {
-    relationship: many_to_one
-    sql_on: ${ga_data_parsed.userssoguid} = ${user_facts.guid} ;;
-  }
-  join: dim_course {
-    relationship: many_to_one
-    sql_on: ${ga_data_parsed.coursekey} = ${dim_course.coursekey} ;;
-  }
-  join: dim_relative_to_start_date {
-    relationship: many_to_one
-    sql_on: datediff(days, ${olr_courses.begin_date_date}, ${ga_data_parsed.hit_date}) = ${dim_relative_to_start_date.days} ;;
-  }
-}
+# explore: ga_data_parsed {
+#   label: "Google Analytics Data"
+#   extends: [dim_course]
+#   join: user_facts {
+#     relationship: many_to_one
+#     sql_on: ${ga_data_parsed.userssoguid} = ${user_facts.guid} ;;
+#   }
+#   join: dim_course {
+#     relationship: many_to_one
+#     sql_on: ${ga_data_parsed.coursekey} = ${dim_course.coursekey} ;;
+#   }
+#   join: dim_relative_to_start_date {
+#     relationship: many_to_one
+#     sql_on: datediff(days, ${olr_courses.begin_date_date}, ${ga_data_parsed.hit_date}) = ${dim_relative_to_start_date.days} ;;
+#   }
+# }
