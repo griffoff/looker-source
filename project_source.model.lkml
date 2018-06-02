@@ -179,6 +179,11 @@ explore: snapshot {
 
 }
 
+explore: raw_events {
+  label: "RAW EVENTS"
+  from: raw_events
+}
+
 
 # explore: ga_data_parsed {
 #   label: "Google Analytics Data"
