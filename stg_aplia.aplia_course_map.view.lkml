@@ -22,15 +22,17 @@ view: aplia_course_map {
         group by 1
         having count(*) < 3
       )
-      select c.guid,c.course_id,nvl(nullif(c.mindtap_course_yn, ''),0) as mindtap_course_yn
+      select c.guid,c.course_id,nvl(try_cast(c.mindtap_course_yn::int as int),0) as mindtap_course_yn
               ,case
                   when i.context_guid is null
                       and s.context_guid is null
                       and ac.context_id not like 'ademo%'
                   then True else False
                end as valid_course
-              ,to_timestamp(max(begin_date), 'MON DD YYYY HH12:MIAM') as begin_date
-              ,to_timestamp(max(end_date), 'MON DD YYYY HH12:MIAM') as end_date
+              --,to_timestamp(max(begin_date), 'MON DD YYYY HH12:MIAM') as begin_date
+              --,to_timestamp(max(end_date), 'MON DD YYYY HH12:MIAM') as end_date
+              ,max(begin_date::timestamp) as begin_date
+              ,max(end_date::timestamp) as end_date
       from stg_aplia.course c
       left join filter_instructors i on c.guid = i.context_guid
       left join filter_students s on c.guid = s.context_guid
