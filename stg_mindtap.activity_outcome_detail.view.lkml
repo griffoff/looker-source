@@ -99,6 +99,13 @@ view: activity_outcome_detail {
     sql: ${TABLE}.TAKE_END_TIME ;;
   }
 
+  dimension_group: attempt_submitted {
+    type: time
+    datatype: epoch
+    timeframes: [time, date]
+    sql: ${TABLE}.TAKE_END_TIME / 1000 ;;
+  }
+
   dimension: take_id {
     type: string
     sql: ${TABLE}.TAKE_ID ;;
@@ -112,6 +119,13 @@ view: activity_outcome_detail {
   dimension: take_start_time {
     type: string
     sql: ${TABLE}.TAKE_START_TIME ;;
+  }
+
+  dimension_group: attempt_started {
+    type: time
+    datatype: epoch
+    timeframes: [time, date]
+    sql: ${TABLE}.TAKE_START_TIME / 1000 ;;
   }
 
   dimension: user_id {
