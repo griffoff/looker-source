@@ -106,6 +106,11 @@ view: activity_outcome_detail {
     sql: ${TABLE}.TAKE_END_TIME / 1000 ;;
   }
 
+  measure: latest_attempt {
+    type: date
+    sql: MAX(${attempt_submitted_time}) ;;
+  }
+
   dimension: take_id {
     type: string
     sql: ${TABLE}.TAKE_ID ;;
