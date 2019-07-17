@@ -11,6 +11,11 @@ view: activations_olr {
     primary_key: yes
   }
 
+  dimension: organization {
+    type: string
+    sql: ${TABLE}.ORGANIZATION ;;
+  }
+
   dimension: actv_count {
     label: "Activation count"
     type: number
@@ -134,7 +139,7 @@ view: activations_olr {
 
   dimension: isbn13 {
     type: string
-    sql: ${TABLE}.ISBN13 ;;
+    sql: ${TABLE}."isbn13" ;;
   }
 
   dimension: ldts {
