@@ -32,6 +32,13 @@ view: node {
     sql: ${TABLE}.END_DATE ;;
   }
 
+  dimension_group: due_date {
+    type: time
+    datatype: epoch
+    timeframes: [time, date]
+    sql: ${TABLE}.END_DATE / 1000 ;;
+  }
+
   dimension: is_student_visible {
     type: string
     sql: ${TABLE}.IS_STUDENT_VISIBLE ;;
