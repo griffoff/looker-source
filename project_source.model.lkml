@@ -179,6 +179,11 @@ explore: snapshot {
     relationship: one_to_many
   }
 
+  join: latest_take {
+    sql_on: ${activity_outcome_detail.id} = ${latest_take.aod_id} ;;
+    relationship: one_to_one
+  }
+
   join: student {
     view_label: "User - Student"
     from: user
@@ -188,6 +193,18 @@ explore: snapshot {
 
 }
 
+explore: activity {
+  join: activity_outcome {
+    sql_on: ${activity.id} = ${activity_outcome.activity_id};;
+    relationship: one_to_many
+    type: inner
+  }
+  join: activity_outcome_detail {
+    sql_on: ${activity_outcome.id} = ${activity_outcome_detail.activity_outcome_id} ;;
+    relationship: one_to_many
+    type: inner
+  }
+}
 
 # explore: ga_data_parsed {
 #   label: "Google Analytics Data"

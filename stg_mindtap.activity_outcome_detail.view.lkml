@@ -1,4 +1,26 @@
+view: latest_take {
+  view_label: "Activity Outcome Detail"
+  derived_table: {
+    sql: SELECT activity_outcome_id, max(id) as aod_id
+          FROM ${activity_outcome_detail.SQL_TABLE_NAME}
+          GROUP BY 1;;
+    }
+    dimension: activity_outcome_id {
+      primary_key: yes
+      hidden: yes
+    }
+    dimension: aod_id {
+     hidden: yes
+    }
+    dimension: is_latest_take {
+      type: yesno
+      sql: ${aod_id} IS NOT NULL ;;
+    }
+}
+
+
 view: activity_outcome_detail {
+  view_label: "Activity Outcome Detail"
   sql_table_name: STG_MINDTAP.ACTIVITY_OUTCOME_DETAIL ;;
 
   dimension: id {
@@ -59,9 +81,11 @@ view: activity_outcome_detail {
     sql: ${TABLE}.LAST_MODIFIED_BY ;;
   }
 
-  dimension: last_modified_date {
-    type: string
-    sql: ${TABLE}.LAST_MODIFIED_DATE ;;
+  dimension_group: last_modified_date {
+    group_label: "Last Modified"
+    type: time
+    timeframes: [raw, minute, hour, day_of_week, date, month, month_name, year]
+    sql: TO_TIMESTAMP(${TABLE}.LAST_MODIFIED_DATE, 3) ;;
   }
 
   dimension: ldts {
@@ -94,9 +118,11 @@ view: activity_outcome_detail {
     sql: ${TABLE}.STATUS ;;
   }
 
-  dimension: take_end_time {
-    type: string
-    sql: ${TABLE}.TAKE_END_TIME ;;
+  dimension_group: take_end_time {
+    group_label: "Take End"
+    type: time
+    timeframes: [raw, minute, hour, day_of_week, date, month, month_name, year]
+    sql: to_timestamp(${TABLE}.TAKE_END_TIME, 3) ;;
   }
 
   dimension_group: attempt_submitted {
@@ -147,6 +173,33 @@ view: activity_outcome_detail {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: cycle_time_mins {
+    type: number
+    sql: datediff(minute, ${take_end_time_raw}, ${activity_outcome.last_modified_date_raw});;
+    hidden: yes
+  }
+
+  measure: cycle_time_max_hrs {
+    group_label: "Cycle time"
+    type: number
+    sql: MAX(${cycle_time_mins}) / 60;;
+    value_format_name: decimal_1
+  }
+
+  measure: cycle_time_min_hrs {
+    group_label: "Cycle time"
+    type: number
+    sql: MIN(${cycle_time_mins}) / 60;;
+    value_format_name: decimal_1
+  }
+
+  measure: cycle_time_avg_hrs {
+    group_label: "Cycle time"
+    type: number
+    sql: AVG(${cycle_time_mins}) / 60;;
+    value_format_name: decimal_1
   }
 
   # ----- Sets of fields for drilling ------

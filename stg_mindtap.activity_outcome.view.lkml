@@ -49,13 +49,18 @@ view: activity_outcome {
   }
 
   dimension: is_dropped {
-    type: string
-    sql: ${TABLE}.IS_DROPPED ;;
+    type: yesno
+    sql: ${TABLE}.IS_DROPPED=1 ;;
+  }
+
+  dimension: is_partial {
+    type: yesno
+    sql: ${TABLE}.is_partial=1 ;;
   }
 
   dimension: is_student {
-    type: string
-    sql: ${TABLE}.IS_STUDENT ;;
+    type: yesno
+    sql: ${TABLE}.IS_STUDENT=1 ;;
   }
 
   dimension: last_modified_by {
@@ -64,9 +69,10 @@ view: activity_outcome {
   }
 
   dimension_group: last_modified_date {
+    group_label: "Last Modified"
     type: time
-    timeframes: [year, day_of_week, week_of_year]
-    sql: dateadd(millisecond, ${TABLE}.LAST_MODIFIED_DATE::int, 0::timestamp) ;;
+    timeframes: [raw, minute, hour, year, day_of_week, week_of_year, month, month_name]
+    sql: to_timestamp(${TABLE}.LAST_MODIFIED_DATE, 3) ;;
   }
 
   dimension: last_score_modified_time {

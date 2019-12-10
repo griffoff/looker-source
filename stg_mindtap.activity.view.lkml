@@ -124,9 +124,9 @@ view: activity {
   }
 
   dimension: manually_graded {
-    type: string
+    type: yesno
     label: "Manually Graded"
-    sql: ${TABLE}.MANUALLY_GRADED;;
+    sql: ${TABLE}.MANUALLY_GRADED=1;;
   }
 
   dimension: duration {

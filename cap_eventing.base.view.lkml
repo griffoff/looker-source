@@ -18,12 +18,24 @@ view: cafe_eventing_base {
   dimension_group: event_time {
     type: time
     label:"Event"
-    timeframes: [year, month, month_name, week, week_of_year, date, time, hour, hour_of_day, minute]
+    timeframes: [raw, year, month, month_name, week, week_of_year, date, time, hour, hour_of_day, minute]
   }
 
   measure: count {
     label: "# events"
     type: count
+  }
+
+  measure: earliest_event {
+    type: date_time
+    label: "Time first seen"
+    sql: MIN(CASE WHEN ${event_time_raw} < '2018-01-01' THEN NULL ELSE ${event_time_raw} END) ;;
+  }
+
+  measure: latest_event {
+    type: date_time
+    label: "Time last received"
+    sql: MAX(CASE WHEN ${event_time_raw} > CURRENT_TIMESTAMP() THEN NULL ELSE ${event_time_raw} END) ;;
   }
 
 }
