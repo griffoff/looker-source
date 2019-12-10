@@ -188,6 +188,20 @@ view: activity_outcome_detail {
     value_format_name: decimal_1
   }
 
+  measure: cycle_time_3q_hrs {
+    group_label: "Cycle time"
+    type: number
+    sql: PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${cycle_time_mins}) / 60;;
+    value_format_name: decimal_1
+  }
+
+  measure: cycle_time_1q_hrs {
+    group_label: "Cycle time"
+    type: number
+    sql: PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${cycle_time_mins}) / 60;;
+    value_format_name: decimal_1
+  }
+
   measure: cycle_time_min_hrs {
     group_label: "Cycle time"
     type: number
