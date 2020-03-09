@@ -43,6 +43,7 @@ view: olr_courses {
   }
 
   dimension: course_key {
+    description: "Course identification key"
     label: "Course Key"
     primary_key: yes
     type: string
@@ -50,6 +51,7 @@ view: olr_courses {
   }
 
   dimension: course_name {
+    description: "Name of provisioned course"
     type: string
     sql: ${TABLE}.COURSE_NAME ;;
     hidden: yes
