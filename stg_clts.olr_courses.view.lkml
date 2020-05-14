@@ -129,7 +129,7 @@ view: olr_courses {
 
   dimension: instructor_guid {
     group_label: "Instructor"
-    label: "Instructor GUID"
+    label: "Primary Instructor GUID"
     description: "Instructor user ID.  ID may represent a coordinator based on how the course was set up."
     type: string
     sql: ${TABLE}.INSTRUCTOR_GUID ;;
