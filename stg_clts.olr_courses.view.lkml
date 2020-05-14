@@ -118,7 +118,7 @@ view: olr_courses {
   dimension: entity_no {
     type: string
     sql: ${TABLE}.ENTITY_NO ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: from_cgi {
