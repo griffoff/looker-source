@@ -43,6 +43,7 @@ view: olr_courses {
   }
 
   dimension: course_key {
+    description: "Course identification key"
     label: "Course Key"
     primary_key: yes
     type: string
@@ -50,6 +51,7 @@ view: olr_courses {
   }
 
   dimension: course_name {
+    description: "Name of provisioned course"
     type: string
     sql: ${TABLE}.COURSE_NAME ;;
     hidden: yes
@@ -116,7 +118,7 @@ view: olr_courses {
   dimension: entity_no {
     type: string
     sql: ${TABLE}.ENTITY_NO ;;
-    hidden: yes
+    hidden: no
   }
 
   dimension: from_cgi {
@@ -127,7 +129,7 @@ view: olr_courses {
 
   dimension: instructor_guid {
     group_label: "Instructor"
-    label: "Instructor GUID"
+    label: "Primary Instructor GUID"
     description: "Instructor user ID.  ID may represent a coordinator based on how the course was set up."
     type: string
     sql: ${TABLE}.INSTRUCTOR_GUID ;;
