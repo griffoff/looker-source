@@ -73,6 +73,13 @@ view: cafe_eventing_base_profile_event {
   extension: required
   extends: [cafe_eventing_base]
 
+  parameter: environment {
+    default_value: "PROD"
+    type: unquoted
+    allowed_value: {label: "Production Data" value: "PROD"}
+    allowed_value: {label: "Lower Environment Data" value: "NONPROD"}
+  }
+
   dimension: location {group_label: "Location" type: string}
   dimension: location_ip {group_label: "Location" sql:${location}:ipAddress::STRING;; type: string}
   dimension: location_tz {group_label: "Location" sql:${location}:timeZone::STRING;; type: string}
@@ -93,6 +100,13 @@ view: cafe_eventing_base_profile_event {
 view: cafe_eventing_base_client_activity {
   extension: required
   extends: [cafe_eventing_base_activity, cafe_eventing_base_client]
+
+  parameter: environment {
+    default_value: "PROD"
+    type: unquoted
+    allowed_value: {label: "Production Data" value: "PROD"}
+    allowed_value: {label: "Lower Environment Data" value: "NONPROD"}
+  }
 
   dimension: event_duration {
     description: "Duration (mins)"
