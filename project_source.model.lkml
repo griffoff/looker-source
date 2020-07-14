@@ -44,8 +44,6 @@ explore: cafe_eventing_server_activity_event {}
 explore: cafe_eventing_profile_event {}
 explore: cafe_eventing_wa_profile_event {}
 
-explore: cafe_eventing_client_activity_event_nonprod {}
-
 
 # CLTS
 explore: olr_courses {

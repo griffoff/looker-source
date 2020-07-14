@@ -67,10 +67,10 @@ view: cafe_eventing_client_activity_event {
 
 }
 
-view: cafe_eventing_client_activity_event_nonprod {
-  extends: [cafe_eventing_client_activity_event]
-  parameter: environment {default_value:"NONPROD"}
-}
+# view: cafe_eventing_client_activity_event_nonprod {
+#   extends: [cafe_eventing_client_activity_event]
+#   parameter: environment {default_value:"NONPROD"}
+# }
 
 
 view: cafe_eventing_wa_client_activity_event {
