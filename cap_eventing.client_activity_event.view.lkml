@@ -4,6 +4,8 @@ view: cafe_eventing_client_activity_event {
   extends: [cafe_eventing_base_client_activity]
   sql_table_name: cap_eventing.{% parameter environment %}.client_activity_event ;;
 
+  view_label: "CAFE Events - Client activity events"
+
   dimension: tags_course_key {
     type: string
   #   sql: ${TABLE}."TAGS"[0]:value::STRING  ;;
@@ -54,26 +56,12 @@ view: cafe_eventing_client_activity_event {
     label: "Search Term"
   }
 
-#   dimension: tags_key {
-#     type: string
-#     sql: ${TABLE}."TAGS"[0]:key::STRING  ;;
-#     label: "key"
-#   }
-#
-#   measure: example_tags  {
-#     type: string
-#     sql: any_value(${TABLE}.tags) ;;
-#   }
-
 }
-
-# view: cafe_eventing_client_activity_event_nonprod {
-#   extends: [cafe_eventing_client_activity_event]
-#   parameter: environment {default_value:"NONPROD"}
-# }
 
 
 view: cafe_eventing_wa_client_activity_event {
   extends: [cafe_eventing_base_client_activity]
   sql_table_name: cap_eventing.{% parameter environment %}.wa_client_activity_event ;;
+
+  view_label: "CAFE Events - WebAssign client activity events"
 }
