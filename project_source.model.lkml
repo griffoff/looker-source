@@ -38,7 +38,12 @@ explore: tables {
 
 # CAFE
 
-explore: cafe_eventing_client_activity_event {}
+explore: cafe_eventing_client_activity_event {
+  join: tags {
+    type: cross
+    relationship: one_to_many
+  }
+}
 # other explores have the same view name so that you can change the view by changing the view name in the url
 explore: cafe_eventing_wa_client_activity_event {from: cafe_eventing_wa_client_activity_event view_name:cafe_eventing_client_activity_event}
 explore: cafe_eventing_server_activity_event {from: cafe_eventing_server_activity_event view_name:cafe_eventing_client_activity_event}
