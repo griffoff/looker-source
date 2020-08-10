@@ -133,6 +133,7 @@ view: olr_courses {
     description: "Instructor user ID.  ID may represent a coordinator based on how the course was set up."
     type: string
     sql: ${TABLE}.INSTRUCTOR_GUID ;;
+    hidden: yes
   }
 
   dimension: instructor_name {
@@ -141,6 +142,7 @@ view: olr_courses {
     label: "Primary Instructor name"
     type: string
     sql: ${TABLE}.INSTRUCTOR_NAME ;;
+    hidden: yes
   }
 
   dimension: isbn {
