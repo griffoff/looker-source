@@ -13,7 +13,7 @@ view: all_tags {
         CROSS JOIN (SELECT COUNT(*) AS total_events FROM prod.datavault.sat_common_event_client_activity) c
     GROUP BY 1
     ;;
-    persist_for: "24 hours"
+    sql_trigger_value: SELECT COUNT(*) FROM prod.datavault.sat_common_event_client_activity ;;
     }
 
     dimension: tag_name {type: string primary_key:yes }
