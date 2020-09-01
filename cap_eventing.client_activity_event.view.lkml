@@ -131,3 +131,10 @@ view: cafe_eventing_wa_client_activity_event {
 
   view_label: "CAFE Events - WebAssign client activity events"
 }
+
+view: cafe_eventing_cap_activity_event {
+  extends: [cafe_eventing_base_client_activity]
+  sql_table_name: cap_eventing.{% parameter environment %}.cap_activity_event ;;
+
+  view_label: "CAFE Events - CAP activity events"
+}
