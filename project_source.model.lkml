@@ -38,19 +38,30 @@ explore: tables {
 
 # CAFE
 
+explore: cafe_events_base_explore {
+  from: cafe_eventing_client_activity_event
+  view_name: cafe_eventing_client_activity_event
+  hidden:yes
+  always_filter: {
+    filters: [cafe_eventing_client_activity_event.event_time_date: "7 days"]
+    }
+}
+
 explore: cafe_eventing_client_activity_event {
+  extends: [cafe_events_base_explore]
+  hidden: no
   join: tags {
     type: cross
     relationship: one_to_many
   }
 }
-explore: cafe_eventing_cap_activity_event {from: cafe_eventing_cap_activity_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_cap_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_cap_activity_event view_name:cafe_eventing_client_activity_event}
 # other explores have the same view name so that you can change the view by changing the view name in the url
-explore: cafe_eventing_wa_client_activity_event {from: cafe_eventing_wa_client_activity_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_server_activity_event {from: cafe_eventing_server_activity_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_profile_event {from: cafe_eventing_profile_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_wa_profile_event {from: cafe_eventing_wa_profile_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_client_profile_event {from: cafe_eventing_client_profile_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_wa_client_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_client_activity_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_server_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_server_activity_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_profile_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_wa_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_profile_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_client_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_client_profile_event view_name:cafe_eventing_client_activity_event}
 
 
 # CLTS

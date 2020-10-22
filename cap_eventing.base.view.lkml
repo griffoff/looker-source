@@ -19,6 +19,7 @@ view: cafe_eventing_base {
     type: time
     label:"Event"
     timeframes: [raw, year, month, month_name, week, week_of_year, date, time, hour, hour_of_day, minute]
+    sql: CONVERT_TIMEZONE('EST', ${TABLE}.event_time) ;;
   }
 
   measure: count {
