@@ -45,15 +45,74 @@ explore: cafe_events_base_explore {
   always_filter: {
     filters: [cafe_eventing_client_activity_event.event_time_date: "7 days"]
     }
+
+  join: tags {
+    type: cross
+    relationship: one_to_many
+  }
+
+  query: cafe_recent_new_events {
+    label: "New CAFE events in the last 7 days"
+    description: "Use this starting point to see events that have been sent for the first time in the last 7 days.
+    You can further filter by environment or platform"
+    dimensions: [
+      cafe_eventing_client_activity_event.product_platform
+      ,cafe_eventing_client_activity_event.event_category
+      ,cafe_eventing_client_activity_event.event_action]
+    measures: [cafe_eventing_client_activity_event.count]
+    sorts: [cafe_eventing_client_activity_event.product_platform: asc, cafe_eventing_client_activity_event.count: desc]
+    filters: [
+      cafe_eventing_client_activity_event.environment: "PROD"
+      ,cafe_eventing_client_activity_event.event_time_date: ""
+      ,cafe_eventing_client_activity_event.earliest_event: "7 days"
+      ]
+    limit: 500
+  }
+
+  query: cafe_recent_hourly_events{
+    label: "User Counts for the last 48 hours by platform"
+    description: "Hourly number of users who have generated CAFE events by platform for the last 48 hours
+    "
+    dimensions: [cafe_eventing_client_activity_event.event_time_hour, cafe_eventing_client_activity_event.product_platform]
+    pivots: [cafe_eventing_client_activity_event.product_platform]
+    measures: [cafe_eventing_client_activity_event.user_count]
+    filters: [
+      cafe_eventing_client_activity_event.environment: "PROD",
+      cafe_eventing_client_activity_event.event_time_date: "48 hours"
+    ]
+  }
+
+  query: cafe_recent_event_tags {
+    label: "CAFE tag names received in the last day"
+    description: "See the different tags that have been received in CAFE events in the last 24 hours"
+    dimensions: [cafe_eventing_client_activity_event.product_platform, tags.key]
+    measures: [cafe_eventing_client_activity_event.count]
+    filters: [
+      cafe_eventing_client_activity_event.event_time_date: "1 days",
+      tags.key: "-EMPTY"
+    ]
+  }
+
+  query: cafe_tag_values {
+    label: "Event Counts for CAFE tag values"
+    description: "
+    This shows you the number of events recived with specific values in the tag for a specific tag name.
+    Default filters are set so that we see the number of times the CU-Sidebar carousel has been clicked and which pane was clicked on.
+    The pie chart vizualization is a good one to use for this"
+    dimensions: [tags.value]
+    measures: [cafe_eventing_client_activity_event.count]
+    filters: [
+      cafe_eventing_client_activity_event.event_time_date: "7 days",
+      cafe_eventing_client_activity_event.product_platform: "cu-side-bar",
+      tags.key: "carouselName"
+    ]
+  }
+
 }
 
 explore: cafe_eventing_client_activity_event {
   extends: [cafe_events_base_explore]
   hidden: no
-  join: tags {
-    type: cross
-    relationship: one_to_many
-  }
 }
 explore: cafe_eventing_cap_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_cap_activity_event view_name:cafe_eventing_client_activity_event}
 # other explores have the same view name so that you can change the view by changing the view name in the url
