@@ -5,6 +5,8 @@ named_value_format: duration_mins {
 view: cafe_eventing_base {
   extension: required
 
+  drill_fields: [event_time_raw,  _ldts_raw, delivery_delay_mins, event_category, event_action, product_platform, product_environment, _rsrc, count]
+
   dimension_group: _ldts {
     type: time
     label:"Load"
@@ -50,7 +52,7 @@ view: cafe_eventing_base {
     group_label: "Delivery Delay"
     type: tier
     style: relational
-    tiers: [0, 1, 2, 3, 5, 15, 30, 60, 120, 480]
+    tiers: [-5, -1, 0, 1, 2, 3, 5, 15, 30, 60, 120, 480]
     sql: ${delivery_delay_mins};;
     value_format: "0 \m\i\n\s"
   }
