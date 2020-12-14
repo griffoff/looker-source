@@ -50,6 +50,7 @@ view: cafe_eventing_base {
 
   dimension: delivery_delay_mins_tier {
     group_label: "Delivery Delay"
+    description: "The time between event_time and _ldts in minutes"
     type: tier
     style: relational
     tiers: [-5, -1, 0, 1, 2, 3, 5, 15, 30, 60, 120, 480]
