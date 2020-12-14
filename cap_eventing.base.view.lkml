@@ -42,7 +42,7 @@ view: cafe_eventing_base {
   dimension: delivery_delay_mins {
     group_label: "Delivery Delay"
     type: number
-    sql: DATEDIFF(minute, ${event_time_raw}, ${_ldts_raw});;
+    sql: DATEDIFF(minute, CONVERT_TIMEZONE('EST', ${TABLE}.event_time), ${TABLE}._ldts);;
     value_format_name: decimal_1
   }
 
