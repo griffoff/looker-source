@@ -8,7 +8,7 @@ view: cafe_eventing_base {
   dimension_group: _ldts {
     type: time
     label:"Load"
-    timeframes: [year, month, month_name, week, week_of_year, date, time, hour, hour_of_day, minute]
+    timeframes: [raw, year, month, month_name, week, week_of_year, date, time, hour, hour_of_day, minute]
   }
   dimension: _rsrc {type: string label:"Record Source (_RSRC)"}
   dimension: message_format_version {type: number group_label: "Message Details"}
@@ -37,6 +37,29 @@ view: cafe_eventing_base {
     type: date_time
     label: "Time last received"
     sql: MAX(CASE WHEN ${event_time_raw} > CURRENT_TIMESTAMP() THEN NULL ELSE ${event_time_raw} END) ;;
+  }
+
+  dimension: delivery_delay_mins {
+    group_label: "Delivery Delay"
+    type: number
+    sql: DATEDIFF(minute, ${event_time_raw}, ${_ldts_raw});;
+    value_format_name: decimal_1
+  }
+
+  dimension: delivery_delay_mins_tier {
+    group_label: "Delivery Delay"
+    type: tier
+    style: relational
+    tiers: [0, 1, 2, 3, 5, 15, 30, 60, 120, 480]
+    sql: ${delivery_delay_mins};;
+    value_format: "0 \m\i\n\s"
+  }
+
+  dimension: delivery_delay_hours {
+    group_label: "Delivery Delay"
+    type: number
+    sql: DATEDIFF(hour, ${event_time_raw}, ${_ldts_raw});;
+    value_format_name: decimal_1
   }
 
 }
