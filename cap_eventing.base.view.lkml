@@ -48,6 +48,18 @@ view: cafe_eventing_base {
     value_format_name: decimal_1
   }
 
+  measure: deivery_delay_mins_median {
+    group_label: "Delivery Delay"
+    type: median
+    sql: ${delivery_delay_mins} ;;
+  }
+
+  measure: deivery_delay_mins_avg {
+    group_label: "Delivery Delay"
+    type: average
+    sql: ${delivery_delay_mins} ;;
+  }
+
   dimension: delivery_delay_mins_tier {
     group_label: "Delivery Delay"
     description: "The time between event_time and _ldts in minutes"
