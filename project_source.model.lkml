@@ -40,10 +40,10 @@ explore: tables {
 
 explore: cafe_events_base_explore {
   from: cafe_eventing_client_activity_event
-  view_name: cafe_eventing_client_activity_event
+  view_name: cafe_events
   hidden:yes
   always_filter: {
-    filters: [cafe_eventing_client_activity_event.event_time_date: "7 days"]
+    filters: [cafe_events.event_time_date: "7 days"]
     }
 
   join: tags {
@@ -56,15 +56,15 @@ explore: cafe_events_base_explore {
     description: "Use this starting point to see events that have been sent for the first time in the last 7 days.
     You can further filter by environment or platform"
     dimensions: [
-      cafe_eventing_client_activity_event.product_platform
-      ,cafe_eventing_client_activity_event.event_category
-      ,cafe_eventing_client_activity_event.event_action]
-    measures: [cafe_eventing_client_activity_event.count]
-    sorts: [cafe_eventing_client_activity_event.product_platform: asc, cafe_eventing_client_activity_event.count: desc]
+      cafe_events.product_platform
+      ,cafe_events.event_category
+      ,cafe_events.event_action]
+    measures: [cafe_events.count]
+    sorts: [cafe_events.product_platform: asc, cafe_events.count: desc]
     filters: [
-      cafe_eventing_client_activity_event.environment: "PROD"
-      ,cafe_eventing_client_activity_event.event_time_date: ""
-      ,cafe_eventing_client_activity_event.earliest_event: "7 days"
+      cafe_events.environment: "PROD"
+      ,cafe_events.event_time_date: ""
+      ,cafe_events.earliest_event: "7 days"
       ]
     limit: 500
   }
@@ -73,22 +73,22 @@ explore: cafe_events_base_explore {
     label: "User Counts for the last 48 hours by platform"
     description: "Hourly number of users who have generated CAFE events by platform for the last 48 hours
     "
-    dimensions: [cafe_eventing_client_activity_event.event_time_hour, cafe_eventing_client_activity_event.product_platform]
-    pivots: [cafe_eventing_client_activity_event.product_platform]
-    measures: [cafe_eventing_client_activity_event.user_count]
+    dimensions: [cafe_events.event_time_hour, cafe_events.product_platform]
+    pivots: [cafe_events.product_platform]
+    measures: [cafe_events.user_count]
     filters: [
-      cafe_eventing_client_activity_event.environment: "PROD",
-      cafe_eventing_client_activity_event.event_time_date: "48 hours"
+      cafe_events.environment: "PROD",
+      cafe_events.event_time_date: "48 hours"
     ]
   }
 
   query: cafe_recent_event_tags {
     label: "CAFE tag names received in the last day"
     description: "See the different tags that have been received in CAFE events in the last 24 hours"
-    dimensions: [cafe_eventing_client_activity_event.product_platform, tags.key]
-    measures: [cafe_eventing_client_activity_event.count]
+    dimensions: [cafe_events.product_platform, tags.key]
+    measures: [cafe_events.count]
     filters: [
-      cafe_eventing_client_activity_event.event_time_date: "1 days",
+      cafe_events.event_time_date: "1 days",
       tags.key: "-EMPTY"
     ]
   }
@@ -100,10 +100,10 @@ explore: cafe_events_base_explore {
     Default filters are set so that we see the number of times the CU-Sidebar carousel has been clicked and which pane was clicked on.
     The pie chart vizualization is a good one to use for this"
     dimensions: [tags.value]
-    measures: [cafe_eventing_client_activity_event.count]
+    measures: [cafe_events.count]
     filters: [
-      cafe_eventing_client_activity_event.event_time_date: "7 days",
-      cafe_eventing_client_activity_event.product_platform: "cu-side-bar",
+      cafe_events.event_time_date: "7 days",
+      cafe_events.product_platform: "cu-side-bar",
       tags.key: "carouselName"
     ]
   }
@@ -114,13 +114,13 @@ explore: cafe_eventing_client_activity_event {
   extends: [cafe_events_base_explore]
   hidden: no
 }
-explore: cafe_eventing_cap_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_cap_activity_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_cap_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_cap_activity_event view_name:cafe_events}
 # other explores have the same view name so that you can change the view by changing the view name in the url
-explore: cafe_eventing_wa_client_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_client_activity_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_server_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_server_activity_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_profile_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_wa_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_profile_event view_name:cafe_eventing_client_activity_event}
-explore: cafe_eventing_client_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_client_profile_event view_name:cafe_eventing_client_activity_event}
+explore: cafe_eventing_wa_client_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_client_activity_event view_name:cafe_events}
+explore: cafe_eventing_server_activity_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_server_activity_event view_name:cafe_events}
+explore: cafe_eventing_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_profile_event view_name:cafe_events}
+explore: cafe_eventing_wa_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_profile_event view_name:cafe_events}
+explore: cafe_eventing_client_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_client_profile_event view_name:cafe_events}
 
 
 # CLTS

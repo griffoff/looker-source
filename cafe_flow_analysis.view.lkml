@@ -10,6 +10,13 @@ view: cafe_flow_analysis {
     datatype: date
   }
 
+  filter: first_event_category {
+    label: "Select the first event category"
+    type: string
+    suggest_explore: client_activity_event
+    suggest_dimension: cafe_eventing_client_activity_event.event_category
+  }
+
   filter: product_platform_filter {
     suggest_explore: cafe_eventing_client_activity_event
     suggest_dimension: cafe_eventing_client_activity_event.product_platform
@@ -22,6 +29,8 @@ view: cafe_flow_analysis {
       SELECT
         user_sso_guid
         ,event_time
+        ,event_category
+        ,event_action
         ,cu_user_analysis.event_name_from_source('CLIENT ACTIVITY EVENTS', host_platform, event_category, event_action, NULL) AS event_name
         ,LAG(event_name) OVER (PARTITION BY user_sso_guid ORDER BY event_time) = event_name AS duplicate
       FROM cap_eventing.prod.client_activity_event
@@ -36,20 +45,26 @@ view: cafe_flow_analysis {
       FROM events
       WHERE NOT duplicate
     )
-    SELECT
-      user_sso_guid
-      ,MAX(CASE WHEN sequence = 1 THEN event_name END) as event_1
-      ,MAX(CASE WHEN sequence = 2 THEN event_name END) as event_2
-      ,MAX(CASE WHEN sequence = 3 THEN event_name END) as event_3
-      ,MAX(CASE WHEN sequence = 4 THEN event_name END) as event_4
-      ,MAX(CASE WHEN sequence = 5 THEN event_name END) as event_5
-      ,MAX(CASE WHEN sequence = 6 THEN event_name END) as event_6
-      ,MAX(CASE WHEN sequence = 7 THEN event_name END) as event_7
-      ,MAX(CASE WHEN sequence = 8 THEN event_name END) as event_8
-      ,MAX(CASE WHEN sequence = 9 THEN event_name END) as event_9
-    FROM event_sequence
-    WHERE sequence <= 9
-    GROUP BY 1
+    ,results AS (
+      SELECT
+        user_sso_guid
+        ,MAX(CASE WHEN sequence = 1 THEN event_category END) as event_category_1
+        ,MAX(CASE WHEN sequence = 1 THEN event_name END) as event_1
+        ,MAX(CASE WHEN sequence = 2 THEN event_name END) as event_2
+        ,MAX(CASE WHEN sequence = 3 THEN event_name END) as event_3
+        ,MAX(CASE WHEN sequence = 4 THEN event_name END) as event_4
+        ,MAX(CASE WHEN sequence = 5 THEN event_name END) as event_5
+        ,MAX(CASE WHEN sequence = 6 THEN event_name END) as event_6
+        ,MAX(CASE WHEN sequence = 7 THEN event_name END) as event_7
+        ,MAX(CASE WHEN sequence = 8 THEN event_name END) as event_8
+        ,MAX(CASE WHEN sequence = 9 THEN event_name END) as event_9
+      FROM event_sequence
+      WHERE sequence <= 9
+      GROUP BY 1
+    )
+    SELECT *
+    FROM results
+    WHERE {% condition first_event_category %} event_category_1 {% endcondition %}
 
       ;;
   }
