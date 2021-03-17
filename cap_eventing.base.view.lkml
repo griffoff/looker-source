@@ -1,6 +1,4 @@
-named_value_format: duration_mins {
-  value_format: "[m] \m\i\n\s"
-}
+include: "//core/named_formats.lkml"
 
 view: cafe_eventing_base {
   extension: required
@@ -152,28 +150,28 @@ view: cafe_eventing_base_client_activity {
     type: number
     group_label: "Event Details"
     sql: ${TABLE}.event_duration / 3600 / 24 ;;
-    value_format_name: duration_mins
+    value_format_name: duration_minutes
   }
   measure: event_duration_avg  {
     group_label: "Duration"
     label: "Duration (Avg per event)"
     type: average
     sql: ${event_duration} ;;
-    value_format_name: duration_mins
+    value_format_name: duration_minutes
   }
   measure: event_duration_total  {
     group_label: "Duration"
     label: "Duration (Total)"
     type: average
     sql: ${event_duration} ;;
-    value_format_name: duration_mins
+    value_format_name: duration_minutes
   }
   measure: event_duration_avg_per_user  {
     group_label: "Duration"
     label: "Duration (Avg per user)"
     type: number
     sql: ${event_duration_total} / ${user_count} ;;
-    value_format_name: duration_mins
+    value_format_name: duration_minutes
   }
 
   dimension: event_uri {type: string group_label: "Event Details"}
