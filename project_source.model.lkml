@@ -43,7 +43,7 @@ explore: cafe_events_base_explore {
   view_name: cafe_events
   hidden:yes
   always_filter: {
-    filters: [cafe_events.event_time_date: "7 days"]
+    filters: [cafe_events.event_time_date: "7 days", cafe_events.environment: "PROD"]
     }
 
   join: tags {
