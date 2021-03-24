@@ -1,4 +1,4 @@
-include: "cap_eventing.base.view"
+include: "./cap_eventing.base.view"
 
 view: cafe_eventing_server_activity_event {
   extends: [cafe_eventing_base_activity]

@@ -1,4 +1,4 @@
-include: "cap_eventing.base.view"
+include: "./cap_eventing.base.view"
 
 view: all_tags {
   derived_table: {
