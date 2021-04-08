@@ -1,42 +1,12 @@
 connection: "snowflake_prod"
-label:"Source Data on Snowflake"
 
-include: "/views/cafe/*.view.lkml"
-
-
-# Database Metadata
-# explore: schema_comparison {
-#   label: "Compare schemas: STG to PROD "
-#   join: table_comparison {
-#     sql_on: ${schema_comparison.schema_name} = ${table_comparison.schema_name};;
-#     relationship: one_to_many
-#   }
-#   join: column_comparison {
-#     sql_on: (${table_comparison.schema_name}, ${table_comparison.table_name}) = (${column_comparison.schema_name}, ${column_comparison.table_name}) ;;
-#     relationship: one_to_many
-#   }
-# }
-
-# explore: tables {
-#   label: "Information Schema"
-
-#   join: load_history {
-#     sql_on: ${tables.table_catalog} = ${load_history.table_catalog}
-#           and ${tables.table_schema} = ${load_history.schema_name}
-#           and ${tables.table_name} = ${load_history.table_name};;
-#     relationship: many_to_one
-#   }
-
-#   join: columns {
-#     sql_on:  ${tables.table_catalog} = ${columns.table_catalog}
-#           and ${tables.table_schema} = ${columns.table_schema}
-#           and ${tables.table_name} = ${columns.table_name};;
-#     relationship: many_to_one
-#   }
-# }
+include: "/views/cafe/*.view.lkml"                # include all views in the views/ folder in this project
 
 
-# CAFE
+explore: +cafe_flow_analysis{
+  hidden: no
+  always_filter: {filters: [cafe_flow_analysis.date_range_filter: "7 days", cafe_flow_analysis.product_platform_filter: ""]}
+}
 
 explore: cafe_events_base_explore {
   from: cafe_eventing_client_activity_event
@@ -44,7 +14,7 @@ explore: cafe_events_base_explore {
   hidden:yes
   always_filter: {
     filters: [cafe_events.event_time_date: "7 days", cafe_events.environment: "PROD"]
-    }
+  }
 
   join: tags {
     type: cross
@@ -63,9 +33,9 @@ explore: cafe_events_base_explore {
     sorts: [cafe_events.product_platform: asc, cafe_events.count: desc]
     filters: [
       cafe_events.environment: "PROD"
-      ,cafe_events.event_time_date: ""
+      ,cafe_events.event_time_date: "after 2018/01/01"
       ,cafe_events.earliest_event: "7 days"
-      ]
+    ]
     limit: 500
   }
 
@@ -121,22 +91,3 @@ explore: cafe_eventing_server_activity_event {extends: [cafe_events_base_explore
 explore: cafe_eventing_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_profile_event view_name:cafe_events}
 explore: cafe_eventing_wa_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_wa_profile_event view_name:cafe_events}
 explore: cafe_eventing_client_profile_event {extends: [cafe_events_base_explore] hidden: no from: cafe_eventing_client_profile_event view_name:cafe_events}
-
-
-# CLTS
-# explore: olr_courses {
-#   label: "CLTS - Courses"
-#   join: entities{
-#     sql_on: ${olr_courses.entity_no} = ${entities.entity_no} ;;
-#     relationship: many_to_one
-#   }
-#   join: products {
-#     sql_on: ${olr_courses.isbn} = ${products.isbn13} ;;
-#     relationship: many_to_one
-#   }
-
-#   join: activations_olr {
-#     sql_on: ${olr_courses.context_id}=${activations_olr.context_id} ;;
-#     relationship: one_to_many
-#   }
-# }

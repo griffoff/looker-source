@@ -1,9 +1,9 @@
 include: "/views/explore_level_parameters.view"
-include: "cdf.base"
-explore: cdf {
+include: "sdf.base"
+explore: sdf {
   hidden:yes
-  from: cdf
-  view_name: cdf
+  from: sdf
+  view_name: sdf
 
   join: explore_level_parameters {}
 }

@@ -1,4 +1,5 @@
 explore: cafe_flow_analysis{
+  hidden: yes
   always_filter: {filters: [cafe_flow_analysis.date_range_filter: "after 7 days ago", cafe_flow_analysis.product_platform_filter: ""]}
 }
 
