@@ -1,9 +1,11 @@
 connection: "snowflake_prod"
+label: "CAFE"
 
 include: "/views/cafe/*.view.lkml"                # include all views in the views/ folder in this project
 
 
 explore: +cafe_flow_analysis{
+  label: "CAFE Flow Analysis Tool"
   hidden: no
   always_filter: {filters: [cafe_flow_analysis.date_range_filter: "7 days", cafe_flow_analysis.product_platform_filter: ""]}
 }
@@ -81,6 +83,7 @@ explore: cafe_events_base_explore {
 }
 
 explore: cafe_eventing_client_activity_event {
+  label: "CAFE Raw Events"
   extends: [cafe_events_base_explore]
   hidden: no
 }
