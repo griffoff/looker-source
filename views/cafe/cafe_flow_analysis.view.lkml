@@ -1,4 +1,5 @@
 explore: cafe_flow_analysis{
+  description: "This is a tool to allow you to see the path that users follow in terms of the events we capture via CAFE"
   hidden: yes
   always_filter: {filters: [cafe_flow_analysis.date_range_filter: "after 7 days ago", cafe_flow_analysis.product_platform_filter: ""]}
 }

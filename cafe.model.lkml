@@ -84,6 +84,7 @@ explore: cafe_events_base_explore {
 
 explore: cafe_eventing_client_activity_event {
   label: "CAFE Raw Events"
+  description: "A view of the CAFE Client events before any cleanup or filtering. Usually about 15 minutes behind real-time"
   extends: [cafe_events_base_explore]
   hidden: no
 }
