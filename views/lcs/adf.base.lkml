@@ -1,3 +1,5 @@
+include: "//core/datagroups.lkml"
+
 view: adf {
 
   derived_table: {
@@ -11,7 +13,7 @@ view: adf {
       WHERE _latest
       ;;
 
-      persist_for: "24 hours"
+      datagroup_trigger: daily_refresh
     }
 
   #sql_table_name: "LCS".{% parameter environment %}."ADF";;
