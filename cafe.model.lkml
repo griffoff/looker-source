@@ -3,6 +3,7 @@ label: "CAFE"
 
 include: "/views/cafe/*.view.lkml"                # include all views in the views/ folder in this project
 
+case_sensitive: no
 
 explore: +cafe_flow_analysis{
   label: "CAFE Flow Analysis Tool"

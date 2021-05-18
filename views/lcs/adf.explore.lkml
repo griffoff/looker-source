@@ -2,8 +2,6 @@ include: "adf.view"
 include: "adf_references.view"
 
 explore: +adf {
-  from: adf
-  view_name: adf
 
   join: adf_references {
     sql_on: ${adf.cgi} = ${adf_references.cgi} and ${adf.checkpoint_id} = ${adf_references.checkpoint_id} ;;

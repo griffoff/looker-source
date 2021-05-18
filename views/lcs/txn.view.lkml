@@ -1,9 +1,14 @@
-include: "/views/explore_level_parameters.view"
+include: "/views/common_includes.lkml"
 include: "txn.base"
 explore: txn {
   hidden:yes
-  from: txn
-  view_name: txn
+  from: root
+  view_name: root
+
+  join: txn {
+    sql_on: TRUE ;;
+    relationship: one_to_many
+  }
 
   join: explore_level_parameters {}
 }

@@ -1,9 +1,14 @@
-include: "/views/explore_level_parameters.view"
+include: "/views/common_includes.lkml"
 include: "sdf_references.base"
 explore: sdf_references {
   hidden:yes
-  from: sdf_references
-  view_name: sdf_references
+  from: root
+  view_name: root
+
+  join: sdf_references {
+    sql_on: TRUE ;;
+    relationship: one_to_many
+  }
 
   join: explore_level_parameters {}
 }
