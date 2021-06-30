@@ -22,7 +22,9 @@ view: settings_key_values {
     suggest_explore: settings_key_cache
     suggest_dimension: settings_key_cache.key
     }
-  dimension: value {sql: ${TABLE}.value:value::STRING;;}
+  dimension: value {
+    sql: OBJECT_DELETE(${TABLE}.value:value, '@type')::STRING;;
+    }
   measure: example_value {
     type: string
     sql: ANY_VALUE(${value}) ;;
