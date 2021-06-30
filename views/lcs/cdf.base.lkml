@@ -2,7 +2,6 @@ view: cdf {
   sql_table_name: "LCS".{% parameter explore_level_parameters.schema_name %}."CDF"
     ;;
 
-
   dimension_group: _ldts {
     type: time
     timeframes: [

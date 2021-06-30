@@ -41,6 +41,7 @@ view: sdf {
   }
 
   dimension: cgi {
+    description: "Global Identifier for Settings File"
     type: string
     sql: ${TABLE}."CGI" ;;
   }

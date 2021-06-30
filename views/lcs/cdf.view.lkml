@@ -1,9 +1,8 @@
 include: "/views/common_includes.lkml"
 include: "cdf.base"
+
 explore: cdf {
-  hidden:yes
-  from: root
-  view_name: root
+  extends: [root]
 
   join: cdf {
     sql_on: TRUE ;;
@@ -11,4 +10,12 @@ explore: cdf {
   }
 
   join: explore_level_parameters {}
+}
+
+view: +cdf {
+  dimension: settings_cgi {
+    type: string
+    # TODO: this should be a flatten, in case there are multiple references
+    sql: ${settings_reference_group}:settings[0]:referenceId ;;
+  }
 }

@@ -6,3 +6,7 @@ project_name: "project_source"
 local_dependency: {
    project: "core"
 }
+
+local_dependency: {
+  project: "cengage_unlimited"
+}

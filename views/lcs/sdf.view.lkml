@@ -12,3 +12,7 @@ explore: sdf {
 
   join: explore_level_parameters {}
 }
+
+view: +sdf {
+
+}
