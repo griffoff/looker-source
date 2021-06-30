@@ -41,7 +41,7 @@ view: cafe_eventing_client_activity_event {
   view_label: "CAFE Events - Client activity events"
 
   dimension: event_id {
-    hidden: yes
+    hidden: no
     primary_key: yes
   }
 
