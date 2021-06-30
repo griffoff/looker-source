@@ -1,12 +1,27 @@
 include: "/views/common_includes.lkml"
 
+explore: settings_key_cache {hidden:yes}
+
+view: settings_key_cache {
+  derived_table: {
+    explore_source: sdf_flattened {
+      column: key { field: settings_key_values.key }
+    }
+  }
+  dimension: key {}
+}
+
 view: settings_key_values {
   dimension: pk {
     primary_key: yes
     hidden: yes
     sql: HASH(${key}, ${value});;
     }
-  dimension: key {sql:${TABLE}.value:key::STRING;;}
+  dimension: key {
+    sql:${TABLE}.value:key::STRING;;
+    suggest_explore: settings_key_cache
+    suggest_dimension: settings_key_cache.key
+    }
   dimension: value {sql: ${TABLE}.value:value::STRING;;}
   measure: example_value {
     type: string
