@@ -12,29 +12,49 @@ view: settings_key_cache {
 }
 
 view: settings_key_values {
+  label: "Settings"
   dimension: pk {
     primary_key: yes
     hidden: yes
     sql: HASH(${key}, ${value});;
     }
   dimension: key {
+    label: "Setting Name"
+    description: "Setting Name"
     sql:${TABLE}.value:key::STRING;;
     suggest_explore: settings_key_cache
     suggest_dimension: settings_key_cache.key
     }
   dimension: value {
-    sql: OBJECT_DELETE(${TABLE}.value:value, '@type')::STRING;;
+    label: "Setting Value"
+    description: "Setting value with the @type property removed"
+    sql:
+      CASE
+        WHEN CHECK_JSON(${TABLE}.value:value) IS NOT NULL
+        THEN OBJECT_DELETE(${TABLE}.value:value, '@type')::STRING
+        ELSE ${TABLE}.value:value::STRING
+        END
+      ;;
     }
+  dimension: value_type {
+    label: "Setting Type"
+    description: "The @type property of the setting value"
+    sql: ${TABLE}.value:value:"@type"::STRING;;
+  }
   measure: example_value {
+    description: "An example of one of the used values of the current setting"
     type: string
     sql: ANY_VALUE(${value}) ;;
   }
-  measure: count { type:count}
   measure: value_count {
+    label: "# Unique Values"
+    description: "Number of different values"
     type:count_distinct
     sql: ${value} ;;
     }
   measure: key_count {
+    label: "# Unique Settings"
+    description: "Number of unique setting names"
     type:count_distinct
     sql: ${key} ;;
   }
@@ -52,6 +72,7 @@ explore: sdf_flattened {
 }
 
 view: sdf_flattened {
+  label: "Settings"
   derived_table: {
     create_process: {
       sql_step: USE WAREHOUSE HEAVYDUTY
@@ -89,16 +110,16 @@ view: sdf_flattened {
   }
 
   dimension: pk {primary_key:yes hidden:yes}
-  dimension: cgi {}
-  dimension: checkpoint_id {}
-  dimension: retrieval_id {}
-  dimension: course_settings {}
-  dimension: context_path {}
-  dimension: context_path_type {}
-  dimension: content_references {}
-  dimension: instance_id {}
-  dimension: settings_group {}
-  dimension: settings_values {}
-  dimension: settings_key_values {}
-  measure: count { type:count}
+  dimension: cgi {hidden:yes}
+  dimension: checkpoint_id {hidden:yes}
+  dimension: retrieval_id {hidden:yes}
+  dimension: course_settings {hidden:yes}
+  dimension: context_path {hidden:yes}
+  dimension: context_path_type {hidden:yes}
+  dimension: content_references {hidden:yes}
+  dimension: instance_id {hidden:yes}
+  dimension: settings_group {hidden:yes}
+  dimension: settings_values {hidden:yes}
+  dimension: settings_key_values {hidden:yes}
+  measure: count { label:"SDF Flattened Count" type:count hidden:yes}
 }

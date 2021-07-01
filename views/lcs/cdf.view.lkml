@@ -13,6 +13,7 @@ explore: cdf {
 }
 
 view: +cdf {
+  label: "CDF"
   dimension: settings_cgi {
     type: string
     # TODO: this should be a flatten, in case there are multiple references

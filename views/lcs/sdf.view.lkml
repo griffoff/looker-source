@@ -14,5 +14,6 @@ explore: sdf {
 }
 
 view: +sdf {
+  label: "SDF"
 
 }
