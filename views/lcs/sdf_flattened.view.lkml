@@ -97,8 +97,8 @@ view: sdf_flattened {
         FROM lcs.prod.sdf settings
             JOIN LATERAL FLATTEN(course_settings) containers ON containers.key = 'containers'
             JOIN LATERAL FLATTEN(containers.value) container_children
-            JOIN LATERAL FLATTEN(container_children.value:children) course_settings
-            JOIN LATERAL FLATTEN(course_settings.value:settingsGroup) settings_group ON settings_group.key != '@type'
+            JOIN LATERAL FLATTEN(container_children.value:children, outer=>True) course_settings
+            JOIN LATERAL FLATTEN(COALESCE(course_settings.value:settingsGroup, container_children.value:settingsGroup)) settings_group ON settings_group.key != '@type'
         GROUP BY 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
       ;;
 
